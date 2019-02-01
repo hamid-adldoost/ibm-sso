@@ -35,7 +35,7 @@ public class WebPageRestService {
         return webPageService.findByPrimaryKey(id);
     }
 
-    @Secured(AccessRoles.ROLE_SEARCH_WEB_PAGE)
+//    @Secured(AccessRoles.ROLE_SEARCH_WEB_PAGE)
     @GetMapping("/search")
     public PagedResult search(
                                       @RequestParam(value = "address", required = false) String address,

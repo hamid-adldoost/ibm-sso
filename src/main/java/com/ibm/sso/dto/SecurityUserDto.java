@@ -26,6 +26,7 @@ public class SecurityUserDto implements DomainDto<SecurityUser, SecurityUserDto>
     private Integer status;
     private List<SecurityRoleDto> roleList;
     private List<SecurityPermissionDto> permissionList;
+    private Date creationDate;
  
 
     public Date getLastLogin() {
@@ -107,6 +108,14 @@ public class SecurityUserDto implements DomainDto<SecurityUser, SecurityUserDto>
         this.permissionList = permissionList;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public static SecurityUserDto toDto(SecurityUser securityUser) {
 
         if(securityUser == null)
@@ -135,6 +144,7 @@ public class SecurityUserDto implements DomainDto<SecurityUser, SecurityUserDto>
             });
             dto.setRoleList(dtoList);
         }
+        dto.setCreationDate(securityUser.getCreationDate());
         return dto;
   }
 
@@ -160,6 +170,7 @@ public class SecurityUserDto implements DomainDto<SecurityUser, SecurityUserDto>
 //            });
 //            securityUser.setPermissionList(permissionList);
 //        }
+        securityUser.setCreationDate(dto.getCreationDate());
         return securityUser;
   }
     @Override

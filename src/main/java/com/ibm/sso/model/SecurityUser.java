@@ -45,6 +45,10 @@ public class SecurityUser implements DomainEntity {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
 
     @JoinTable(name = "sec_user_role",
             joinColumns = {@JoinColumn(name = "user", referencedColumnName = "id", nullable = false)}
@@ -151,6 +155,14 @@ public class SecurityUser implements DomainEntity {
 
     public void setPermissionList(List<SecurityPermission> permissionList) {
         this.permissionList = permissionList;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
