@@ -165,18 +165,55 @@ public class SecurityUserService extends GeneralServiceImpl<SecurityUserDto, Sec
 
     @Transactional
     public SecurityUserDto addPermissionsToUser(List<Long> permissionIdList, Long userId) {
-        if(permissionIdList == null || permissionIdList.isEmpty())
-            return findByPrimaryKey(userId);
-        SecurityUserDto securityUserDto = findByPrimaryKey(userId);
-        if(securityUserDto == null)
-            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
-        if(securityUserDto.getPermissionList() == null || securityUserDto.getPermissionList().isEmpty())
-            securityUserDto.setPermissionList(new ArrayList<>());
-        permissionIdList.stream().forEach(p -> {
-            SecurityPermissionDto securityPermissionDto = new SecurityPermissionDto();
-            securityPermissionDto.setId(p);
-            securityUserDto.getPermissionList().add(securityPermissionDto);
-        });
-        return save(securityUserDto);
+
+        return SecurityUserDto.toDto(securityUserDao.addPermissionsToUser(permissionIdList, userId));
+    }
+
+    @Transactional
+    public SecurityUserDto addRolesToUser(List<Long> roleIdList, Long userId) {
+
+        return SecurityUserDto.toDto(securityUserDao.addRolesToUser(roleIdList, userId));
+    }
+
+    @Transactional
+    public SecurityUserDto removePermissionFromUser(Long permissionId, Long userId) {
+
+        return SecurityUserDto.toDto(securityUserDao.removePermissionFromUser(permissionId, userId));
+        //        if(permissionId == null)
+//            return  null;
+//        if(userId == null)
+//            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+//        SecurityUser user = securityUserDao.findByPrimaryKey(userId);
+//        if(user == null)
+//            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+//
+//        final List<SecurityPermission> permission = new ArrayList<>();
+//        if(user.getPermissionList() == null || user.getPermissionList().isEmpty())
+//            throw new RuntimeException(BusinessExceptionCode.BAD_INPUT.name());
+//        user.getPermissionList().stream().forEach(p -> {
+//            if(p.getId().equals(permissionId))
+//                permission.add(p);
+//        });
+//        if(permission.isEmpty())
+//            throw new RuntimeException(BusinessExceptionCode.BAD_INPUT.name());
+//        user.getPermissionList().remove(permission.get(0));
+//        return SecurityUserDto.toDto(securityUserDao.save(user));
+    }
+
+    @Transactional
+    public SecurityUserDto removeRoleFromUser(Long roleId, Long userId) {
+
+        return SecurityUserDto.toDto(securityUserDao.removeRoleFromUser(roleId, userId));
+        //        if(roleId == null)
+//            return  null;
+//        if(userId == null)
+//            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+//        SecurityUser user = securityUserDao.findByPrimaryKey(userId);
+//        if(user == null)
+//            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+//
+//        SecurityRole role =
+//        user.getRoleList().remove(role);
+//        return SecurityUserDto.toDto(securityUserDao.save(user));
     }
 }

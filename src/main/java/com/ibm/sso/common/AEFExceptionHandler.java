@@ -4,6 +4,7 @@ package com.ibm.sso.common;
 import com.google.common.base.Throwables;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,12 @@ public class AEFExceptionHandler extends ResponseEntityExceptionHandler {
             errorMessage = ErrorCodeReaderUtil.getResourceProperity("UNAUTHORIZED");
             code = 0;
             return new ResponseEntity<>(new RestErrorMessage(errorMessage, code), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(ex instanceof AccessDeniedException) {
+            errorMessage = ErrorCodeReaderUtil.getResourceProperity("ACCESS_DENIED");
+            code = -2;
+            return new ResponseEntity<>(new RestErrorMessage(errorMessage, code), HttpStatus.FORBIDDEN);
         }
 
         try {

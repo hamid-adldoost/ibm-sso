@@ -51,12 +51,15 @@ public class SecurityUser implements DomainEntity {
 
 
     @JoinTable(name = "sec_user_role",
-            joinColumns = {@JoinColumn(name = "user", referencedColumnName = "id", nullable = false)}
-            , inverseJoinColumns = {@JoinColumn(name = "role", referencedColumnName = "id", nullable = false)})
+            joinColumns = {@JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)}
+            , inverseJoinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
     @ManyToMany(cascade = CascadeType.ALL)
     private List<SecurityRole> roleList;
 
-    @ManyToMany(mappedBy = "userList", cascade = CascadeType.ALL)
+    @JoinTable(name = "sec_user_permission",
+            joinColumns = {@JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)}
+            , inverseJoinColumns = {@JoinColumn(name = "sec_permission", referencedColumnName = "id", nullable = false)})
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<SecurityPermission> permissionList;
 
 

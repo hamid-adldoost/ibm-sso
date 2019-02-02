@@ -5,8 +5,10 @@ import com.ibm.sso.common.BusinessExceptionCode;
 import com.ibm.sso.model.SecurityPermission;
 import com.ibm.sso.model.SecurityRole;
 import com.ibm.sso.model.SecurityUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,8 +17,14 @@ import java.util.List;
 @Repository
 public class SecurityUserDao extends AbstractDAOImpl<SecurityUser, Long> {
 
-    public SecurityUserDao() {
+    private SecurityPermissionDao securityPermissionDao;
+    private SecurityRoleDao securityRoleDao;
+
+    @Autowired
+    public SecurityUserDao(SecurityPermissionDao securityPermissionDao, SecurityRoleDao securityRoleDao) {
         super(SecurityUser.class);
+        this.securityPermissionDao = securityPermissionDao;
+        this.securityRoleDao = securityRoleDao;
     }
 
     public SecurityUser findUserByUsernameOrEmail(String username, String email) {
@@ -65,5 +73,65 @@ public class SecurityUserDao extends AbstractDAOImpl<SecurityUser, Long> {
         else
             return getEntityManager().createQuery("select r from SecurityRole r", SecurityRole.class)
                     .getResultList();
+    }
+
+    public SecurityUser addPermissionsToUser(List<Long> permissionIdList, Long userId) {
+
+        if(permissionIdList == null || permissionIdList.isEmpty())
+            return findByPrimaryKey(userId);
+        SecurityUser securityUser = findByPrimaryKey(userId);
+        if(securityUser == null)
+            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+        if(securityUser.getPermissionList() == null)
+            securityUser.setPermissionList(new ArrayList<>());
+        permissionIdList.stream().forEach(p -> {
+            SecurityPermission securityPermission = securityPermissionDao.findByPrimaryKey(p);
+            securityUser.getPermissionList().add(securityPermission);
+        });
+        return save(securityUser);
+    }
+
+    public SecurityUser addRolesToUser(List<Long> roleIdList, Long userId) {
+
+        if(roleIdList == null || roleIdList.isEmpty())
+            return findByPrimaryKey(userId);
+        SecurityUser securityUser = findByPrimaryKey(userId);
+        if(securityUser == null)
+            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+        if(securityUser.getRoleList() == null)
+            securityUser.setRoleList(new ArrayList<>());
+        roleIdList.stream().forEach(p -> {
+            SecurityRole securityRole = securityRoleDao.findByPrimaryKey(p);
+            securityUser.getRoleList().add(securityRole);
+        });
+        return save(securityUser);
+    }
+
+    public SecurityUser removeRoleFromUser(Long roleId, Long userId) {
+
+        SecurityUser securityUser = findByPrimaryKey(userId);
+        if(securityUser == null)
+            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+        if(securityUser.getRoleList() == null || securityUser.getRoleList().isEmpty())
+            return securityUser;
+        SecurityRole securityRole = securityRoleDao.findByPrimaryKey(roleId);
+        if(securityRole == null)
+            throw new RuntimeException(BusinessExceptionCode.BAD_INPUT.name());
+        securityUser.getRoleList().remove(securityRole);
+        return save(securityUser);
+    }
+
+    public SecurityUser removePermissionFromUser(Long permissionId, Long userId) {
+
+        SecurityUser securityUser = findByPrimaryKey(userId);
+        if(securityUser == null)
+            throw new RuntimeException(BusinessExceptionCode.USER_NOT_FOUND.name());
+        if(securityUser.getPermissionList() == null || securityUser.getPermissionList().isEmpty())
+            return securityUser;
+        SecurityPermission securityPermission = securityPermissionDao.findByPrimaryKey(permissionId);
+        if(securityPermission == null)
+            throw new RuntimeException(BusinessExceptionCode.BAD_INPUT.name());
+        securityUser.getPermissionList().remove(securityPermission);
+        return save(securityUser);
     }
 }

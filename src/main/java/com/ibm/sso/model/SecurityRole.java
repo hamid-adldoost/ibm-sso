@@ -30,9 +30,15 @@ public class SecurityRole implements DomainEntity {
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
-    @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
+    @JoinTable(name = "sec_user_role",
+            joinColumns = {@JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SecurityUser> userList;
-    @ManyToMany(mappedBy = "roleList", cascade = CascadeType.ALL)
+    @JoinTable(name = "sec_role_permission",
+            joinColumns = {@JoinColumn(name = "sec_permission", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<SecurityPermission> permissionList;
 
 

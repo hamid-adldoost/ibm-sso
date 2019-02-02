@@ -112,4 +112,19 @@ public class SecurityUserRestService {
     public SecurityUserDto addPermissionToUser(@RequestBody List<Long> permissionIdList,@PathVariable(name = "userId") Long userId) {
         return securityUserService.addPermissionsToUser(permissionIdList, userId);
     }
+
+    @PostMapping(path = "/add-role/{userId}")
+    public SecurityUserDto addRoleToUser(@RequestBody List<Long> roleIdList,@PathVariable(name = "userId") Long userId) {
+        return securityUserService.addRolesToUser(roleIdList, userId);
+    }
+
+    @DeleteMapping(path = "/remove-permission/{userId}/{id}")
+    public SecurityUserDto removePermissionFromUser(@PathVariable(name = "id") Long permissionId,@PathVariable(name = "userId") Long userId) {
+        return securityUserService.removePermissionFromUser(permissionId, userId);
+    }
+
+    @DeleteMapping(path = "/remove-role/{userId}/{id}")
+    public SecurityUserDto removeRoleFromUser(@PathVariable(name = "id") Long roleId,@PathVariable(name = "userId") Long userId) {
+        return securityUserService.removeRoleFromUser(roleId, userId);
+    }
 }
