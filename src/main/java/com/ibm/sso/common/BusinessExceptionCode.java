@@ -20,6 +20,7 @@ public enum BusinessExceptionCode {
     EMAIL_IS_TAKEN_ALREADY(2007),
     USERNAME_IS_TAKEN_ALREADY(2008),
     USER_NOT_FOUND(2009),
+    ROLE_NOT_FOUND(2010),
 
 
     //Validation

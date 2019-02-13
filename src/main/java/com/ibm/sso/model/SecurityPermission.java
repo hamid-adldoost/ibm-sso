@@ -31,6 +31,7 @@ public class SecurityPermission implements DomainEntity {
             @JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
     @ManyToMany(cascade = CascadeType.ALL)
     private List<SecurityRole> roleList;
+
     @JoinTable(name = "sec_user_permission", joinColumns = {
             @JoinColumn(name = "sec_permission", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
             @JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)})

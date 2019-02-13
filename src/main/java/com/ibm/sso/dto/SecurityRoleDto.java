@@ -73,6 +73,7 @@ public class SecurityRoleDto implements DomainDto<SecurityRole, SecurityRoleDto>
             securityRole.getPermissionList().forEach(p -> {
                 permissionDtoList.add(SecurityPermissionDto.toDto(p));
             });
+            dto.setPermissionList(permissionDtoList);
         }
         return dto;
   }

@@ -31,13 +31,13 @@ public class SecurityRole implements DomainEntity {
     private String title;
 
     @JoinTable(name = "sec_user_role",
-            joinColumns = {@JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
+            joinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "sec_user", referencedColumnName = "id", nullable = false)})
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SecurityUser> userList;
     @JoinTable(name = "sec_role_permission",
-            joinColumns = {@JoinColumn(name = "sec_permission", referencedColumnName = "id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)})
+            joinColumns = {@JoinColumn(name = "sec_role", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "sec_permission", referencedColumnName = "id", nullable = false)})
     @ManyToMany(cascade = CascadeType.ALL)
     private List<SecurityPermission> permissionList;
 
