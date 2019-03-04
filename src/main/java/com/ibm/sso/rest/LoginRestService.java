@@ -23,8 +23,8 @@ public class LoginRestService {
         return securityService.authenticate(username, password);
     }
 
-    @GetMapping(path = "/perms/{jwt}")
-    public SecurityWrapper findPermissionsForUser(@PathVariable(name = "jwt") String jwt) {
+    @GetMapping(path = "/perms")
+    public SecurityWrapper findPermissionsForUser(@RequestHeader(name = "jwt") String jwt) {
         return securityService.authenticate(jwt);
     }
 }
