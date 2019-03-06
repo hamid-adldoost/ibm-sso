@@ -5,13 +5,18 @@ import com.aef3.data.api.qbe.SortObject;
 import com.aef3.data.api.qbe.StringSearchType;
 import com.ibm.sso.dto.MenuItemDto;
 import com.ibm.sso.dto.MenuTreeItem;
+import com.ibm.sso.dto.SecurityPermissionDto;
+import com.ibm.sso.model.SecurityPermission;
 import com.ibm.sso.service.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.ibm.sso.service.PagedResult;import java.util.Date;
+import com.ibm.sso.service.PagedResult;
+
+import java.util.Date;
 
 import org.springframework.security.access.annotation.Secured;
 import com.ibm.sso.security.AccessRoles;
+
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
@@ -30,62 +35,66 @@ public class MenuItemRestService {
         this.menuItemService = menuItemService;
     }
 
-    @Secured(AccessRoles.ROLE_FIND_MENU_ITEM)
+    //    @Secured(AccessRoles.ROLE_FIND_MENU_ITEM)
     @GetMapping("/{id}")
-    public MenuItemDto findById(@PathVariable(name = "id")Long id) {
+    public MenuItemDto findById(@PathVariable(name = "id") Long id) {
         return menuItemService.findByPrimaryKey(id);
     }
 
-    @Secured(AccessRoles.ROLE_SEARCH_MENU_ITEM)
+    //    @Secured(AccessRoles.ROLE_SEARCH_MENU_ITEM)
     @GetMapping("/search")
     public PagedResult search(
-                                      @RequestParam(value = "address", required = false) String address,
-                                      @RequestParam(value = "name", required = false) String name,
-                                      @RequestParam(value = "permission", required = false) String permission,
-                                      @RequestParam(value = "id", required = false) Long id,
-                                      @RequestParam(value = "title", required = false) String title,
-                                      @RequestParam(value = "firstIndex", required = false) Integer firstIndex,
-                                      @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                      @RequestParam(value = "sortField", required = false) String sortField,
-                                      @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "permission", required = false) String permission,
+            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "firstIndex", required = false) Integer firstIndex,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "sortField", required = false) String sortField,
+            @RequestParam(value = "sortOrder", required = false) String sortOrder) {
 
-            SortObject sortObject = SortUtil.generateSortObject(sortField, sortOrder);
-            List<SortObject> sortObjectList = null;
-            if(sortObject != null)
-               sortObjectList = Collections.singletonList(sortObject);
+        SortObject sortObject = SortUtil.generateSortObject(sortField, sortOrder);
+        List<SortObject> sortObjectList = null;
+        if (sortObject != null)
+            sortObjectList = Collections.singletonList(sortObject);
 
-            if(firstIndex == null)
-               firstIndex = 0;
-            if(pageSize == null)
-               pageSize = Integer.MAX_VALUE;
-            MenuItemDto menuItem = new MenuItemDto();
-            menuItem.setAddress(address); 
-            menuItem.setName(name); 
-            menuItem.setPermission(permission); 
-            menuItem.setId(id); 
-            menuItem.setTitle(title); 
+        if (firstIndex == null)
+            firstIndex = 0;
+        if (pageSize == null)
+            pageSize = Integer.MAX_VALUE;
+        MenuItemDto menuItem = new MenuItemDto();
+        menuItem.setAddress(address);
+        menuItem.setName(name);
+        if (permission != null && !permission.isEmpty()) {
+            SecurityPermissionDto perm = new SecurityPermissionDto();
+            perm.setName(permission);
+            menuItem.setPermission(perm);
+        }
+        menuItem.setId(id);
+        menuItem.setTitle(title);
 
-            return menuItemService.findPagedByExample(menuItem,
-                   sortObjectList,
-                   firstIndex,
-                   pageSize,
-                   StringSearchType.EXPAND_BOTH_SIDES,
-                   null,
-                   null
-                   );
+        return menuItemService.findPagedByExample(menuItem,
+                sortObjectList,
+                firstIndex,
+                pageSize,
+                StringSearchType.EXPAND_BOTH_SIDES,
+                null,
+                null
+        );
     }
 
 
-    @Secured(AccessRoles.ROLE_SAVE_MENU_ITEM)
+    //    @Secured(AccessRoles.ROLE_SAVE_MENU_ITEM)
     @PostMapping(path = "/save")
     public MenuItemDto save(@RequestBody MenuItemDto menuItem) {
         return menuItemService.save(menuItem);
     }
 
 
-    @Secured(AccessRoles.ROLE_REMOVE_MENU_ITEM)
+    //    @Secured(AccessRoles.ROLE_REMOVE_MENU_ITEM)
     @DeleteMapping(path = "/remove/{id}")
-    public void remove(@PathVariable(name = "id")Long id) {
+    public void remove(@PathVariable(name = "id") Long id) {
         menuItemService.remove(id);
     }
 

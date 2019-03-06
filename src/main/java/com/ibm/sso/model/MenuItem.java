@@ -21,8 +21,9 @@ public class MenuItem implements DomainEntity {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "permission")
-    private String permission;
+    @JoinColumn(name = "permission", referencedColumnName = "id")
+    @ManyToOne
+    private SecurityPermission permission;
 
     @Id
     @Column(name = "id")
@@ -43,8 +44,6 @@ public class MenuItem implements DomainEntity {
     @OneToMany(mappedBy = "parentItem", fetch = FetchType.LAZY)
     private List<MenuItem> children;
 
-
-
     public String getAddress() {
         return address;
     }
@@ -62,15 +61,13 @@ public class MenuItem implements DomainEntity {
        this.name = name;
     }
 
-
-    public String getPermission() {
+    public SecurityPermission getPermission() {
         return permission;
     }
 
-    public void setPermission(String permission) {
-       this.permission = permission;
+    public void setPermission(SecurityPermission permission) {
+        this.permission = permission;
     }
-
 
     public Long getId() {
         return id;

@@ -13,7 +13,7 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
 
     private String address;
     private String name;
-    private String permission;
+    private SecurityPermissionDto permission;
     private Long id;
     private WebPageDto page;
     private String title;
@@ -34,10 +34,11 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         this.name = name;
     }
 
-    public String getPermission() {
+    public SecurityPermissionDto getPermission() {
         return permission;
     }
-    public void setPermission(String permission) {
+
+    public void setPermission(SecurityPermissionDto permission) {
         this.permission = permission;
     }
 
@@ -77,7 +78,8 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         MenuItemDto dto = new MenuItemDto();
         dto.setAddress(menuItem.getAddress());
         dto.setName(menuItem.getName());
-        dto.setPermission(menuItem.getPermission());
+        if(menuItem.getPermission() != null)
+            dto.setPermission(SecurityPermissionDto.toDto(menuItem.getPermission()));
         dto.setId(menuItem.getId());
         dto.setPage(WebPageDto.toDto(menuItem.getPage()));
         dto.setTitle(menuItem.getTitle());
@@ -94,7 +96,8 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         MenuItem menuItem = new MenuItem();
         menuItem.setAddress(dto.getAddress());
         menuItem.setName(dto.getName());
-        menuItem.setPermission(dto.getPermission());
+        if(dto.getPermission() != null)
+            menuItem.setPermission(SecurityPermissionDto.toEntity(dto.getPermission()));
         menuItem.setId(dto.getId());
         menuItem.setPage(WebPageDto.toEntity(dto.getPage()));
         menuItem.setTitle(dto.getTitle());

@@ -53,7 +53,8 @@ public class MenuItemService extends GeneralServiceImpl<MenuItemDto, MenuItem, L
         tree.setId(item.getId());
         tree.setName(item.getName());
         tree.setPage(WebPageDto.toDto(item.getPage()));
-        tree.setPermission(item.getPermission());
+        if(item.getPermission() != null)
+            tree.setPermission(item.getPermission().getName());
         tree.setTitle(item.getTitle());
 
         if(item.getChildren() == null || item.getChildren().isEmpty()) {
