@@ -24,4 +24,9 @@ public class AccessRoles {
     public static final String ROLE_SEARCH_MENU_ITEM = "ROLE_SEARCH_MENU_ITEM";
     public static final String ROLE_SAVE_MENU_ITEM = "ROLE_SAVE_MENU_ITEM";
     public static final String ROLE_REMOVE_MENU_ITEM = "ROLE_REMOVE_MENU_ITEM";
+
+    public static final String ROLE_FIND_FILE = "ROLE_FIND_FILE";
+    public static final String ROLE_SEARCH_FILE = "ROLE_SEARCH_FILE";
+    public static final String ROLE_SAVE_FILE = "ROLE_SAVE_FILE";
+    public static final String ROLE_REMOVE_FILE = "ROLE_REMOVE_FILE";
 }
