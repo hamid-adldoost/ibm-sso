@@ -1,19 +1,40 @@
+
 package com.ibm.sso.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuTreeItem {
 
+    @JsonProperty("url")
     private String address;
     private String name;
+    public String icon="email";
     private String permission;
     private Long id;
+    @JsonIgnore
     private WebPageDto page;
     private String title;
+
+    @JsonProperty("type")
+    public String grtType() {
+        if (childTreeList != null) {
+            return "collapsable";
+        }
+        return "item";
+    }
+
+    @JsonProperty("children")
     private List<MenuTreeItem> childTreeList;
 
     public String getAddress() {
+        if(this.grtType()=="item")
         return address;
+        return null;
     }
 
     public void setAddress(String address) {
@@ -21,7 +42,7 @@ public class MenuTreeItem {
     }
 
     public String getName() {
-        return name;
+        return "name"+id.toString();
     }
 
     public void setName(String name) {
