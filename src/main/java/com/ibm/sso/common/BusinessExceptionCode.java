@@ -22,6 +22,12 @@ public enum BusinessExceptionCode {
     USER_NOT_FOUND(2009),
     ROLE_NOT_FOUND(2010),
 
+    COULD_NOT_CREATE_DIRECTORY(2011),
+    COULD_NOT_STORED_FILE_RETRY(2012),
+
+    FILE_NOT_FOUND_PATH(2013),
+
+
 
     //Validation
     BAD_INPUT(3000),

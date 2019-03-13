@@ -67,4 +67,16 @@ public class SecurityWrapper {
         isSecure = secure;
     }
 
+    public boolean hasAnyRole(List<String> roles) {
+        if(roles == null || roles.isEmpty())
+            return true;
+        if(this.getRoles() == null || this.getRoles().isEmpty())
+            return false;
+        for (String r : this.roles) {
+            if (this.getRoles().contains(r))
+                return true;
+        }
+        return false;
+    }
+
 }
