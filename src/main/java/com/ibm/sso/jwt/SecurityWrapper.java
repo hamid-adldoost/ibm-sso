@@ -1,5 +1,6 @@
 package com.ibm.sso.jwt;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,14 @@ public class SecurityWrapper {
         this.roles = roles;
         this.freshToken = freshToken;
         this.isSecure = isSecure;
+
+
+        JWTUserDetails jwtUserDetails = new JWTUserDetails();
+        jwtUserDetails.setUsername(username);
+        jwtUserDetails.setRoles(roles);
+        jwtUserDetails.setPermissions(permissions);
+        jwtUserDetails.setCreationDate(new Date());
+        this.freshToken = JWTUtil.generateToken(jwtUserDetails);
     }
 
     public String getUsername() {

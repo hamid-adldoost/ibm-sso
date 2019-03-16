@@ -6,6 +6,7 @@ import com.ibm.sso.common.SecurityServiceException;
 import com.ibm.sso.dto.SecurityPermissionDto;
 import com.ibm.sso.dto.SecurityRoleDto;
 import com.ibm.sso.dto.SecurityUserDto;
+import com.ibm.sso.jwt.JWTUserDetails;
 import com.ibm.sso.jwt.JWTUtil;
 import com.ibm.sso.jwt.SecurityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,16 +64,14 @@ public class SecurityService {
             throw new SecurityServiceException(BusinessExceptionCode.ACCESS_DENIED.name());
         }
 
-        SecurityWrapper securityWrapper = new SecurityWrapper();
-        securityWrapper.setSecure(true);
-        securityWrapper.setUsername(username);
-        securityWrapper.setPermissions(new ArrayList<>());
-        if(user.getRoleList() != null)
-            securityWrapper.setRoles(user.getRoleList().stream().map(SecurityRoleDto::getName).collect(Collectors.toList()));
-        if(user.getPermissionList() != null)
-            securityWrapper.setPermissions(user.getPermissionList().stream().map(SecurityPermissionDto::getName).collect(Collectors.toList()));
-        return securityWrapper;
+        List<String> roles = null;
+        if(user.getRoleList() != null && !user.getRoleList().isEmpty())
+            roles = user.getRoleList().stream().map(SecurityRoleDto::getName).collect(Collectors.toList());
+        List<String> permissions = null;
+        if(user.getPermissionList() != null && !user.getPermissionList().isEmpty())
+            permissions = user.getPermissionList().stream().map(SecurityPermissionDto::getName).collect(Collectors.toList());
 
+        return new SecurityWrapper(username, permissions, roles, null, true);
     }
 
     public SecurityWrapper authenticate(String jwt) {

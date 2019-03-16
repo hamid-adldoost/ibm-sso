@@ -10,7 +10,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuTreeItem {
 
-    @JsonProperty("url")
+//    @JsonProperty("url")
     private String address;
     private String name;
     public String icon="email";
@@ -19,22 +19,22 @@ public class MenuTreeItem {
     private WebPageDto page;
     private String title;
 
-    @JsonProperty("type")
-    public String grtType() {
-        if (childTreeList != null) {
-            return "collapsable";
-        }
-        return "item";
-    }
+//    @JsonProperty("type")
+//    public String grtType() {
+//        if (childTreeList != null) {
+//            return "collapsable";
+//        }
+//        return "item";
+//    }
 
-    @JsonProperty("children")
+//    @JsonProperty("children")
     private List<MenuTreeItem> childTreeList;
 
-    public String getAddress() {
-        if(this.grtType()=="item")
-        return address;
-        return null;
-    }
+//    public String getAddress() {
+//        if(this.grtType()=="item")
+//        return address;
+//        return null;
+//    }
 
     public void setAddress(String address) {
         this.address = address;
@@ -94,5 +94,9 @@ public class MenuTreeItem {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

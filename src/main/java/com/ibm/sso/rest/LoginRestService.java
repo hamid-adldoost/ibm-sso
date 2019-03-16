@@ -3,7 +3,10 @@ package com.ibm.sso.rest;
 import com.ibm.sso.jwt.SecurityWrapper;
 import com.ibm.sso.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -18,9 +21,13 @@ public class LoginRestService {
 
     @PostMapping(path = "/login")
     public SecurityWrapper login(@RequestParam(name = "username") String username,
-                                 @RequestParam(name = "password") String password) {
+                                 @RequestParam(name = "password") String password,
+                                 HttpServletResponse response) {
 
-        return securityService.authenticate(username, password);
+
+        SecurityWrapper securityWrapper = securityService.authenticate(username, password);
+        response.setHeader(HttpHeaders.AUTHORIZATION, securityWrapper.getFreshToken());
+        return securityWrapper;
     }
 
     @GetMapping(path = "/perms")
