@@ -44,6 +44,9 @@ public class MenuItem implements DomainEntity {
     @OneToMany(mappedBy = "parentItem", fetch = FetchType.LAZY)
     private List<MenuItem> children;
 
+    @Column(name = "icon", length = 255)
+    private String icon;
+
     public String getAddress() {
         return address;
     }
@@ -109,6 +112,14 @@ public class MenuItem implements DomainEntity {
 
     public void setChildren(List<MenuItem> children) {
         this.children = children;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @Override

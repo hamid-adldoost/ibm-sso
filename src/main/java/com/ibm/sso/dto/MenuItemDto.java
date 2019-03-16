@@ -18,6 +18,7 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
     private WebPageDto page;
     private String title;
     private MenuItemDto parentItem;
+    private String icon;
  
 
     public String getAddress() {
@@ -71,6 +72,14 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         this.parentItem = parentItem;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     public static MenuItemDto toDto(MenuItem menuItem) {
 
         if(menuItem == null)
@@ -85,6 +94,7 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         dto.setTitle(menuItem.getTitle());
         if(menuItem.getParentItem() != null)
             dto.setParentItem(MenuItemDto.toDto(menuItem.getParentItem()));
+        dto.setIcon(menuItem.getIcon());
         return dto;
   }
 
@@ -103,6 +113,7 @@ public class MenuItemDto implements DomainDto<MenuItem, MenuItemDto> {
         menuItem.setTitle(dto.getTitle());
         if(dto.getParentItem() != null)
             menuItem.setParentItem(MenuItemDto.toEntity(dto.getParentItem()));
+        menuItem.setIcon(dto.getIcon());
         return menuItem;
   }
     @Override

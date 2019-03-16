@@ -16,7 +16,6 @@ public class MenuTreeItem {
     public String icon="email";
     private String permission;
     private Long id;
-    @JsonIgnore
     private WebPageDto page;
     private String title;
 
@@ -87,5 +86,13 @@ public class MenuTreeItem {
 
     public void setChildTreeList(List<MenuTreeItem> childTreeList) {
         this.childTreeList = childTreeList;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
