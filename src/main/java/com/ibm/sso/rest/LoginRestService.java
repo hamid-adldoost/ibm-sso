@@ -1,5 +1,6 @@
 package com.ibm.sso.rest;
 
+import com.ibm.sso.dto.LoginDto;
 import com.ibm.sso.jwt.SecurityWrapper;
 import com.ibm.sso.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class LoginRestService {
                                  @RequestParam(name = "password") String password,
                                  HttpServletResponse response) {
 
-
+//        SecurityWrapper securityWrapper = securityService.authenticate(loginDto.getUsername(), loginDto.getPassword());
         SecurityWrapper securityWrapper = securityService.authenticate(username, password);
         response.setHeader(HttpHeaders.AUTHORIZATION, securityWrapper.getFreshToken());
         return securityWrapper;

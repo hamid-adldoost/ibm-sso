@@ -56,6 +56,8 @@ public class SecurityService {
         SecurityUserDto user = new SecurityUserDto();
         user.setUsername(username);
         user = userService.findSingleByExample(user, StringSearchType.EXACT);
+        if(user == null)
+            throw new SecurityServiceException(BusinessExceptionCode.ACCESS_DENIED.name());
         if(user.getUsername().equalsIgnoreCase(username)) {
             if(!passwordEncoder.matches(user.getUsername() + password, user.getPassword())) {
                 throw new SecurityServiceException(BusinessExceptionCode.ACCESS_DENIED.name());
