@@ -30,13 +30,13 @@ public class SecurityRoleRestService {
         this.securityRoleService = securityRoleService;
     }
 
-//    @Secured(AccessRoles.ROLE_FIND_SECURITY_ROLE)
+    @Secured(AccessRoles.ROLE_FIND_SECURITY_ROLE)
     @GetMapping("/{id}")
     public SecurityRoleDto findById(@PathVariable(name = "id")Long id) {
         return securityRoleService.findByPrimaryKey(id);
     }
 
-//    @Secured(AccessRoles.ROLE_SEARCH_SECURITY_ROLE)
+    @Secured(AccessRoles.ROLE_SEARCH_SECURITY_ROLE)
     @GetMapping("/search")
     public PagedResult search(
                                       @RequestParam(value = "name", required = false) String name,
@@ -72,20 +72,20 @@ public class SecurityRoleRestService {
     }
 
 
-//    @Secured(AccessRoles.ROLE_SAVE_SECURITY_ROLE)
+    @Secured(AccessRoles.ROLE_SAVE_SECURITY_ROLE)
     @PostMapping(path = "/save")
     public SecurityRoleDto save(@RequestBody SecurityRoleDto securityRole) {
         return securityRoleService.save(securityRole);
     }
 
 
-//    @Secured(AccessRoles.ROLE_REMOVE_SECURITY_ROLE)
+    @Secured(AccessRoles.ROLE_REMOVE_SECURITY_ROLE)
     @DeleteMapping(path = "/remove/{id}")
     public void remove(@PathVariable(name = "id")Long id) {
         securityRoleService.remove(id);
     }
 
-//    @GetMapping("/unassigned-permissions/{roleId}")
+    @GetMapping("/unassigned-permissions/{roleId}")
     public List<SecurityPermissionDto> findUnAssignedPermissionsForRole(@PathVariable(name = "roleId")Long roleId) {
         return securityRoleService.findUnAssignedPermissionsForRole(roleId);
     }

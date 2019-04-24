@@ -2,6 +2,7 @@ package com.ibm.sso.jwt;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -11,9 +12,8 @@ public class JWTUserDetails {
 
     private String username;
     private Date creationDate;
-    private List<String> roles;
-    private List<String> permissions;
-
+    private Set<String> roles;
+    private Set<String> permissions;
 
     public String getUsername() {
         return username;
@@ -31,18 +31,19 @@ public class JWTUserDetails {
         this.creationDate = creationDate;
     }
 
-    public List<String> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
-    public List<String> getPermissions() {
+
+    public Set<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<String> permissions) {
+    public void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
 }

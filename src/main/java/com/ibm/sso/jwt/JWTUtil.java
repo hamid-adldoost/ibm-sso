@@ -99,9 +99,9 @@ public class JWTUtil {
         securityWrapper.setUsername(claims.getSubject());
         securityWrapper.setSecure(true);
         String perms = (String)claims.get(CustomClaims.PERMISSIONS);
-        securityWrapper.setPermissions(convertCommaSeperatedToList(perms));
+        securityWrapper.setPermissions(convertCommaSeperatedToSet(perms));
         String sRoles = (String) claims.get(CustomClaims.ROLES);
-        securityWrapper.setRoles(convertCommaSeperatedToList(sRoles));
+        securityWrapper.setRoles(convertCommaSeperatedToSet(sRoles));
         securityWrapper.setFreshToken("Bearer " + token);
         return securityWrapper;
     }
@@ -115,6 +115,10 @@ public class JWTUtil {
         {
             return Arrays.asList(parts);
         }
+    }
+
+    public static Set<String> convertCommaSeperatedToSet(String str) {
+        return StringUtils.commaDelimitedListToSet(str);
     }
 
     private static Date generateExpirationDate() {

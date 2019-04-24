@@ -37,7 +37,7 @@ public class SecurityUserRestService {
         return securityUserService.findByPrimaryKey(id);
     }
 
-//    @Secured(AccessRoles.ROLE_SEARCH_SECURITY_USER)
+    @Secured(AccessRoles.ROLE_SEARCH_SECURITY_USER)
     @GetMapping("/search")
     public PagedResult search(
                                       @RequestParam(value = "lastLogin", required = false) Date lastLogin,
@@ -85,14 +85,14 @@ public class SecurityUserRestService {
     }
 
 
-//    @Secured(AccessRoles.ROLE_SAVE_SECURITY_USER)
+    @Secured(AccessRoles.ROLE_SAVE_SECURITY_USER)
     @PostMapping(path = "/save")
     public SecurityUserDto save(@RequestBody SecurityUserDto securityUser) {
         return securityUserService.validateAndSave(securityUser);
     }
 
 
-//    @Secured(AccessRoles.ROLE_REMOVE_SECURITY_USER)
+    @Secured(AccessRoles.ROLE_REMOVE_SECURITY_USER)
     @DeleteMapping(path = "/remove/{id}")
     public void remove(@PathVariable(name = "id")Long id) {
         securityUserService.remove(id);

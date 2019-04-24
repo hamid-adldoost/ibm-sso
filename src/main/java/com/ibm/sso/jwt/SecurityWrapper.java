@@ -1,7 +1,9 @@
 package com.ibm.sso.jwt;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -10,8 +12,8 @@ import java.util.List;
 public class SecurityWrapper {
     
     private String username;
-    private List<String> permissions;
-    private List<String> roles;
+    private Set<String> permissions;
+    private Set<String> roles;
     private String freshToken;
     private boolean isSecure;
 
@@ -19,7 +21,7 @@ public class SecurityWrapper {
 
     }
 
-    public SecurityWrapper(String username, List<String> permissions, List<String> roles, String freshToken, boolean isSecure){
+    public SecurityWrapper(String username, Set<String> permissions, Set<String> roles, String freshToken, boolean isSecure){
 
         this.username = username;
         this.permissions = permissions;
@@ -42,21 +44,21 @@ public class SecurityWrapper {
 
     public void setUsername(String username) {
         this.username = username;
-    }   
+    }
 
-    public List<String> getPermissions() {
+    public Set<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<String> permissions) {
+    public void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
 
-    public List<String> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
 

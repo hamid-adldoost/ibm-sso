@@ -35,13 +35,13 @@ public class MenuItemRestService {
         this.menuItemService = menuItemService;
     }
 
-    //    @Secured(AccessRoles.ROLE_FIND_MENU_ITEM)
+    @Secured(AccessRoles.ROLE_FIND_MENU_ITEM)
     @GetMapping("/{id}")
     public MenuItemDto findById(@PathVariable(name = "id") Long id) {
         return menuItemService.findByPrimaryKey(id);
     }
 
-    //    @Secured(AccessRoles.ROLE_SEARCH_MENU_ITEM)
+    @Secured(AccessRoles.ROLE_SEARCH_MENU_ITEM)
     @GetMapping("/search")
     public PagedResult search(
             @RequestParam(value = "address", required = false) String address,
@@ -85,14 +85,14 @@ public class MenuItemRestService {
     }
 
 
-    //    @Secured(AccessRoles.ROLE_SAVE_MENU_ITEM)
+    @Secured(AccessRoles.ROLE_SAVE_MENU_ITEM)
     @PostMapping(path = "/save")
     public MenuItemDto save(@RequestBody MenuItemDto menuItem) {
         return menuItemService.save(menuItem);
     }
 
 
-    //    @Secured(AccessRoles.ROLE_REMOVE_MENU_ITEM)
+    @Secured(AccessRoles.ROLE_REMOVE_MENU_ITEM)
     @DeleteMapping(path = "/remove/{id}")
     public void remove(@PathVariable(name = "id") Long id) {
         menuItemService.remove(id);

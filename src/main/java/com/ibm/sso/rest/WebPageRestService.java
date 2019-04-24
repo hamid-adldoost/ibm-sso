@@ -29,13 +29,13 @@ public class WebPageRestService {
         this.webPageService = webPageService;
     }
 
-//    @Secured(AccessRoles.ROLE_FIND_WEB_PAGE)
+    @Secured(AccessRoles.ROLE_FIND_WEB_PAGE)
     @GetMapping("/{id}")
     public WebPageDto findById(@PathVariable(name = "id")Long id) {
         return webPageService.findByPrimaryKey(id);
     }
 
-//    @Secured(AccessRoles.ROLE_SEARCH_WEB_PAGE)
+    @Secured(AccessRoles.ROLE_SEARCH_WEB_PAGE)
     @GetMapping("/search")
     public PagedResult search(
                                       @RequestParam(value = "address", required = false) String address,
@@ -75,14 +75,14 @@ public class WebPageRestService {
     }
 
 
-//    @Secured(AccessRoles.ROLE_SAVE_WEB_PAGE)
+    @Secured(AccessRoles.ROLE_SAVE_WEB_PAGE)
     @PostMapping(path = "/save")
     public WebPageDto save(@RequestBody WebPageDto webPage) {
         return webPageService.save(webPage);
     }
 
 
-//    @Secured(AccessRoles.ROLE_REMOVE_WEB_PAGE)
+    @Secured(AccessRoles.ROLE_REMOVE_WEB_PAGE)
     @DeleteMapping(path = "/remove/{id}")
     public void remove(@PathVariable(name = "id")Long id) {
         webPageService.remove(id);

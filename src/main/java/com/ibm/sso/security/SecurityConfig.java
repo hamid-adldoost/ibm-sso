@@ -98,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/auth/**")
-                .antMatchers("/**/**")
+//                .antMatchers("/**/**")
                 .antMatchers("/public/**");
     }
 

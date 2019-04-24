@@ -6,16 +6,17 @@ import com.ibm.sso.common.SecurityServiceException;
 import com.ibm.sso.dto.SecurityPermissionDto;
 import com.ibm.sso.dto.SecurityRoleDto;
 import com.ibm.sso.dto.SecurityUserDto;
-import com.ibm.sso.jwt.JWTUserDetails;
 import com.ibm.sso.jwt.JWTUtil;
 import com.ibm.sso.jwt.SecurityWrapper;
+import com.ibm.sso.security.PermissionManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,12 +25,14 @@ public class SecurityService {
     private final SecurityUserService userService;
     private final SecurityRoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final PermissionManagerService permissionManagerService;
 
     @Autowired
-    public SecurityService(SecurityUserService userService, SecurityRoleService roleService, PasswordEncoder passwordEncoder) {
+    public SecurityService(SecurityUserService userService, SecurityRoleService roleService, PasswordEncoder passwordEncoder, PermissionManagerService permissionManagerService) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.permissionManagerService = permissionManagerService;
     }
 
 //    public SecurityWrapper authenticate(String username, String password) {
@@ -66,12 +69,19 @@ public class SecurityService {
             throw new SecurityServiceException(BusinessExceptionCode.ACCESS_DENIED.name());
         }
 
-        List<String> roles = null;
+        Set<String> roles = null;
         if(user.getRoleList() != null && !user.getRoleList().isEmpty())
-            roles = user.getRoleList().stream().map(SecurityRoleDto::getName).collect(Collectors.toList());
-        List<String> permissions = null;
+            roles = user.getRoleList().stream().map(SecurityRoleDto::getName).collect(Collectors.toSet());
+        Set<String> permissions = new HashSet<>();
         if(user.getPermissionList() != null && !user.getPermissionList().isEmpty())
-            permissions = user.getPermissionList().stream().map(SecurityPermissionDto::getName).collect(Collectors.toList());
+            permissions = user.getPermissionList().stream().map(SecurityPermissionDto::getName).collect(Collectors.toSet());
+
+        Map<String, Set<String>> globalPermsMap = permissionManagerService.findPermissionsOfRoles();
+        if(roles != null && !roles.isEmpty()) {
+            for (String r : roles) {
+                permissions.addAll(globalPermsMap.get(r));
+            }
+        }
 
         return new SecurityWrapper(username, permissions, roles, null, true);
     }
