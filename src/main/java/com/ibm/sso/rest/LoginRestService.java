@@ -2,6 +2,7 @@ package com.ibm.sso.rest;
 
 import com.ibm.sso.common.BusinessExceptionCode;
 import com.ibm.sso.common.SecurityServiceException;
+import com.ibm.sso.dto.SecurityUserDto;
 import com.ibm.sso.jwt.SecurityWrapper;
 import com.ibm.sso.security.PermissionManagerService;
 import com.ibm.sso.service.SecurityService;
@@ -56,5 +57,15 @@ public class LoginRestService {
     @GetMapping(path = "/update-admin")
     public void updateAdmin() {
         permissionManagerService.updateAdminRole();
+    }
+
+    @GetMapping(path = "/create-admin")
+    public SecurityUserDto createAdmin() {
+        return permissionManagerService.createAdminUser();
+    }
+
+    @GetMapping(path = "/create-system-user")
+    public SecurityUserDto createSystemUser() {
+        return permissionManagerService.createSystemUser();
     }
 }
